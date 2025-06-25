@@ -118,10 +118,10 @@ app.get('/update-form', (req, res) => {
             
             <label>New Status:</label>
             <select name="status" required>
-                <option value="">Select Status</option>
+                
                 <option value="Active">Active</option>
                 <option value="Completed">Completed</option>
-                <option value="Pending">Pending</option>
+                
             </select><br><br>
             
             <input type="submit" value="Update Status">
@@ -149,17 +149,3 @@ app.post('/update-status', async (req, res) => {
             `);       
 });
 
-// PUT route as required by the question
-app.put('/update-internship-status/:id', async (req, res) => {
-    try {
-        const { status } = req.body;
-        const result = await db.collection('internships').updateOne(
-            { student_id: req.params.id },
-            { $set: { status: status, updated_date: new Date() } }
-        );
-        res.json({ modified: result.modifiedCount });
-    } catch (error) {
-        console.error("Error updating via PUT:", error);
-        res.status(500).json({ error: 'Failed to update status' });
-    }
-});

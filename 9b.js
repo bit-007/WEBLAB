@@ -28,26 +28,12 @@ app.get('/', (req, res) => {
             <input type="text" name="user_name" required><br><br>
             
             <label>Branch:</label>
-            <select name="branch" required>
-                <option value="">Select Branch</option>
-                <option value="CSE">Computer Science Engineering</option>
-                <option value="ECE">Electronics & Communication</option>
-                <option value="ME">Mechanical Engineering</option>
-                <option value="CE">Civil Engineering</option>
-            </select><br><br>
+            <input type="text" name="branch" required><br><br>
+            
             
             <label>Semester:</label>
-            <select name="semester" required>
-                <option value="">Select Semester</option>
-                <option value="1">1st Semester</option>
-                <option value="2">2nd Semester</option>
-                <option value="3">3rd Semester</option>
-                <option value="4">4th Semester</option>
-                <option value="5">5th Semester</option>
-                <option value="6">6th Semester</option>
-                <option value="7">7th Semester</option>
-                <option value="8">8th Semester</option>
-            </select><br><br>
+            <input type="text" name="sem" required><br><br>
+            
             
             <input type="submit" value="Add Student">
         </form>
@@ -62,7 +48,7 @@ app.post('/add-user-student', async (req, res) => {
         const student = {
             user_name: req.body.user_name,
             branch: req.body.branch,
-            semester: parseInt(req.body.semester),
+            sem: parseInt(req.body.sem),
             created_date: new Date()
         };
         
@@ -71,7 +57,7 @@ app.post('/add-user-student', async (req, res) => {
             <h2>✅ Student Added Successfully!</h2>
             <p>Name: ${student.user_name}</p>
             <p>Branch: ${student.branch}</p>
-            <p>Semester: ${student.semester}</p>
+            <p>Semester: ${student.sem}</p>
             <a href="/">Add Another Student</a>
         `);
     
@@ -80,7 +66,7 @@ app.post('/add-user-student', async (req, res) => {
 app.get('/cse-6th-semester', async (req, res) => {
    
         const students = await db.collection('user_students').find({ 
-            semester: 6, 
+            sem: 6, 
             branch: 'CSE' 
         }).toArray();
         
@@ -94,7 +80,7 @@ app.get('/cse-6th-semester', async (req, res) => {
                 html += `<tr>
                     <td>${student.user_name}</td>
                     <td style="color: blue; font-weight: bold;">${student.branch}</td>
-                    <td style="color: green; font-weight: bold;">${student.semester}</td>
+                    <td style="color: green; font-weight: bold;">${student.sem}</td>
                     <td>${student.created_date.toDateString()}</td>
                 </tr>`;
             });

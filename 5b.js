@@ -40,7 +40,6 @@ app.get('/', (req, res) => {
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
-                <option value="E">E</option>
                 <option value="F">F</option>
             </select><br><br>
             
@@ -60,7 +59,6 @@ app.get('/', (req, res) => {
                 <option value="B">B</option>
                 <option value="C">C</option>
                 <option value="D">D</option>
-                <option value="E">E</option>
                 <option value="F">F</option>
             </select><br><br>
             
@@ -100,14 +98,6 @@ app.post('/update-grade', async (req, res) => {
             { $set: { grade: grade, updated_date: new Date() } }
         );
         
-        
-            const updatedStudent = await db.collection('student_grades').findOne({ name: name });
-            res.send(`
-                <h2>✅ Grade Updated Successfully!</h2>
-                <p>Student: ${updatedStudent.name}</p>
-                <p>New Grade: ${updatedStudent.grade}</p>
-                <a href="/">Back to Home</a>
-            `);
         
 });
 
