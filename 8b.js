@@ -20,7 +20,7 @@ MongoClient.connect(url)
         console.error('❌ MongoDB connection failed:', err.message);
     });
 
-app.get('/products', (req, res) => {
+app.get('/', (req, res) => {
     res.send(`
         <h2>Product Management System</h2>
         <form action="/add-product" method="POST">
@@ -48,7 +48,7 @@ app.get('/products', (req, res) => {
 });
 
 app.post('/add-product', async (req, res) => {
-    try {
+    
         const price = parseFloat(req.body.price);
         const discount = parseFloat(req.body.discount);
         const finalPrice = price - (price * discount / 100);
@@ -70,15 +70,13 @@ app.post('/add-product', async (req, res) => {
             <p>Original Price: ₹${product.price}</p>
             <p>Discount: ${product.discount}%</p>
             <p>Final Price: ₹${product.final_price.toFixed(2)}</p>
-            <a href="/products">Add Another Product</a>
+            <a href="/">Add Another Product</a>
         `);
-    } catch (error) {
-        res.status(500).send('Error adding product');
-    }
+    
 });
 
 app.get('/affordable-products', async (req, res) => {
-    try {
+    
         const products = await db.collection('products').find({ final_price: { $lt: 1000 } }).toArray();
         let html = '<h2>Products with Final Price < ₹1000</h2>';
         
@@ -101,7 +99,5 @@ app.get('/affordable-products', async (req, res) => {
         
         html += '<br><a href="/products">Back to Home</a>';
         res.send(html);
-    } catch (error) {
-        res.status(500).send('Error retrieving products');
-    }
+    
 });

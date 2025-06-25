@@ -20,7 +20,7 @@ MongoClient.connect(url)
         console.error('❌ MongoDB connection failed:', err.message);
     });
 
-app.get('/cse-students', (req, res) => {
+app.get('/', (req, res) => {
     res.send(`
         <h2>Student Management - CSE Department</h2>
         <form action="/add-user-student" method="POST">
@@ -53,12 +53,12 @@ app.get('/cse-students', (req, res) => {
         </form>
         <br>
         <a href="/cse-6th-semester">View 6th Semester CSE Students</a><br>
-        <a href="/all-user-students">View All Students</a>
+        
     `);
 });
 
 app.post('/add-user-student', async (req, res) => {
-    try {
+    
         const student = {
             user_name: req.body.user_name,
             branch: req.body.branch,
@@ -72,15 +72,13 @@ app.post('/add-user-student', async (req, res) => {
             <p>Name: ${student.user_name}</p>
             <p>Branch: ${student.branch}</p>
             <p>Semester: ${student.semester}</p>
-            <a href="/cse-students">Add Another Student</a>
+            <a href="/">Add Another Student</a>
         `);
-    } catch (error) {
-        res.status(500).send('Error adding student');
-    }
+    
 });
 
 app.get('/cse-6th-semester', async (req, res) => {
-    try {
+   
         const students = await db.collection('user_students').find({ 
             semester: 6, 
             branch: 'CSE' 
@@ -104,9 +102,7 @@ app.get('/cse-6th-semester', async (req, res) => {
             html += `<br><p><strong>Total 6th Semester CSE Students: ${students.length}</strong></p>`;
         }
         
-        html += '<br><a href="/cse-students">Back to Home</a>';
+        html += '<br><a href="/">Back to Home</a>';
         res.send(html);
-    } catch (error) {
-        res.status(500).send('Error retrieving students');
-    }
+    
 });

@@ -20,7 +20,7 @@ MongoClient.connect(url)
         console.error('❌ MongoDB connection failed:', err.message);
     });
 
-app.get('/startup-ideas', (req, res) => {
+app.get('/', (req, res) => {
     res.send(`
         <h2>Startup Ideas Portal</h2>
         <form action="/add-startup-idea" method="POST">
@@ -57,7 +57,7 @@ app.get('/startup-ideas', (req, res) => {
 });
 
 app.post('/add-startup-idea', async (req, res) => {
-    try {
+    
         const startupIdea = {
             id: req.body.id,
             team_name: req.body.team_name,
@@ -74,15 +74,13 @@ app.post('/add-startup-idea', async (req, res) => {
             <p>Title: ${startupIdea.title}</p>
             <p>Domain: ${startupIdea.domain}</p>
             <p>Funding Required: ₹${startupIdea.funding_required} Lakhs</p>
-            <a href="/startup-ideas">Submit Another Idea</a>
+            <a href="/s">Submit Another Idea</a>
         `);
-    } catch (error) {
-        res.status(500).send('Error submitting startup idea');
-    }
+    
 });
 
 app.get('/edtech-high-funding', async (req, res) => {
-    try {
+    
         const ideas = await db.collection('startup_ideas').find({ 
             domain: 'EdTech',
             funding_required: { $gt: 5 }
@@ -106,9 +104,7 @@ app.get('/edtech-high-funding', async (req, res) => {
             html += '</table>';
         }
         
-        html += '<br><a href="/startup-ideas">Back to Home</a>';
+        html += '<br><a href="/">Back to Home</a>';
         res.send(html);
-    } catch (error) {
-        res.status(500).send('Error retrieving startup ideas');
-    }
+    
 });
