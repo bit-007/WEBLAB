@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Marks</title>
+</head>
+<body>
+    usn:<input id="usn">
+    subject Code:<input id="code">
+    Subject Name:<input id="name">
+    CIE Marks:<input id="cie">
+    SEE Marks:<input id="see">
+    <button onclick="add()">Add Student</button>
+    <div id="output"></div>
+
+<script>
+    function createStudent(usn,code,name,cie,see)
+    {
+        const _cieMarks=cie;
+        const _seeMarks=see;
+
+        return{
+            usn,
+            SubjectCode:code,
+            SubjectName:name,
+            Totalmarks()
+            {
+                return _cieMarks + _seeMarks;
+            },
+
+            display()
+            {
+                return `
+                    <h2> Student details</h2>
+                    <p><strong>USN:</strong>${this.usn}</p>
+                    <p><strong>SUBJECT CODE:</strong>${this.SubjectCode}</p>
+                    <p><strong>SUBJECT NAME:</strong>${this.SubjectName}</p>
+                     <p><strong>TOTAL MARKS:</strong>${this.Totalmarks()}</p>
+                    <h3>Testing the privacy of cie marks and see marks: ${this._cieMarks||'undefined'}</h3>
+                    `;
+                 
+
+            }
+
+        };
+    }
+
+    function add()
+    {
+        const usn=document.getElementById('usn').value;
+        const code=document.getElementById('code').value;
+        const name=document.getElementById('name').value;
+        const cie=+document.getElementById('cie').value;
+        const see=+document.getElementById('see').value;
+
+        if(usn && code && name && cie && see)
+        {
+            const student=createStudent(usn,code,name,cie,see);
+            document.getElementById('output').innerHTML=student.display();
+        }
+    }
+</script>
+    
+    
+</body>
+</html>

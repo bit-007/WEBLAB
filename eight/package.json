@@ -1,0 +1,13 @@
+{
+  "name": "eight",
+  "version": "1.0.0",
+  "description": "",
+  "main": "8a.js",
+  "scripts": {
+    "start": "node 8a.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}

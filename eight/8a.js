@@ -1,3 +1,4 @@
+// vowelCount.js (or 8a.js)
 function vowelCount(str) {
     const vowels = 'aeiouAEIOU';
     const counts = { a: 0, e: 0, i: 0, o: 0, u: 0 };
@@ -12,14 +13,9 @@ function vowelCount(str) {
     return counts;
 }
 
-// NPM Script usage: Add to package.json
-const packageJson = `
-{
-  "name": "vowel-counter",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "node vowelCount.js"
-  },
-  "main": "vowelCount.js"
-}
-`;
+// Test the function
+vowelCount("Hello World");
+vowelCount("Programming is fun");
+vowelCount("Le Tour de France"); // Given example
+
+module.exports = vowelCount;

@@ -46,12 +46,7 @@ function add() {
   if (usn && code && name && cie && see) {
     const student = createStudent(usn, code, name, cie, see);
     document.getElementById('output').innerHTML = student.displayDetails();
-    
-    // Clear inputs
-    document.querySelectorAll('input').forEach(i => i.value = '');
-  } else {
-    document.getElementById('output').innerHTML = '<p>❌ Fill all fields!</p>';
-  }
+  } 
 }
 </script>
 </body>
