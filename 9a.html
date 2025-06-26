@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head><title>Not Bad Converter</title></head>
+<body>
+<h2>Not Bad → Good Converter</h2>
+<input id="text" placeholder="Enter text with 'not' and 'bad'" size="40"><br><br>
+<button onclick="convert()">Convert</button>
+<div id="result"></div>
+
+<script>
+function notBad(str) {
+  const notIndex = str.indexOf('not');
+  const badIndex = str.indexOf('bad');
+  if (notIndex !== -1 && badIndex !== -1 && notIndex < badIndex) {
+    const before = str.substring(0, notIndex);
+    const after = str.substring(badIndex + 3);
+    return before + 'good' + after;
+  }
+  return str;
+}
+
+function convert() {
+  const input = document.getElementById('text').value;
+  const output = notBad(input);
+  document.getElementById('result').innerHTML = `<p><strong>Result:</strong> ${output}</p>`;
+}
+</script>
+</body>
+</html>

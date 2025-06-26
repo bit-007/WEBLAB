@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head><title>Pluralize</title></head>
+<body>
+<h2>Pluralize Words</h2>
+<input id="noun" placeholder="Enter noun (e.g., cat, sheep)"><br><br>
+<input id="number" type="number" placeholder="Enter number" min="0"><br><br>
+<button onclick="makePlural()">Pluralize</button>
+<div id="result"></div>
+
+<script>
+function pluralize(noun, number) {
+  if (number === 1) {
+    return `${number} ${noun}`;
+  }
+  const irregularNouns = {
+    'sheep': 'sheep',
+    'goose': 'geese',
+    'child': 'children',
+    'mouse': 'mice',
+    'tooth': 'teeth',
+    'foot': 'feet'
+  };
+  if (irregularNouns[noun]) {
+    return `${number} ${irregularNouns[noun]}`;
+  }
+  return `${number} ${noun}s`;
+}
+
+function makePlural() {
+  const noun = document.getElementById('noun').value;
+  const number = parseInt(document.getElementById('number').value);
+  const result = pluralize(noun, number);
+  document.getElementById('result').innerHTML = `<p><strong>Result:</strong> ${result}</p>`;
+}
+</script>
+</body>
+</html>

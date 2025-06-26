@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head><title>Month Converter</title></head>
+<body>
+<h2>Month Converter</h2>
+<input id="num" type="number" placeholder="Month number (1-12)" min="1" max="12"><br><br>
+<button onclick="convert()">Convert</button>
+<div id="result"></div>
+
+<script>
+function createMonthConverter() {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  return function(monthNumber) {
+    if (isNaN(monthNumber)) {
+      return "Bad Number";
+    }
+    monthNumber = Math.floor(Number(monthNumber));
+    if (monthNumber < 1 || monthNumber > 12) {
+      return "Bad Number";
+    }
+    return months[monthNumber - 1];
+  };
+}
+
+function convert() {
+  const monthConverter = createMonthConverter();
+  const input = document.getElementById('num').value;
+  const output = monthConverter(input);
+  document.getElementById('result').innerHTML = `<p><strong>Result:</strong> ${output}</p>`;
+}
+</script>
+</body>
+</html>
