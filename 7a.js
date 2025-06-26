@@ -1,3 +1,7 @@
+const express = require('express');
+const path = require('path');
+const app = express();
+
 app.get('/branches', (req, res) => {
     res.send(`
         <h1>Engineering College Branches</h1>
@@ -19,7 +23,7 @@ app.get('/branch/cse', (req, res) => {
                 <a href="/branches">Home</a>
                 <a href="/branch/ece">Electronics</a>
                 <a href="/branch/mechanical">Mechanical</a>
-                <a href="/branch/civil">Civil</a>
+                
             </nav>
             <div>
                 <h2>Department Overview</h2>
@@ -48,7 +52,7 @@ app.get('/branch/ece', (req, res) => {
                 <a href="/branches">Home</a>
                 <a href="/branch/cse">Computer Science</a>
                 <a href="/branch/mechanical">Mechanical</a>
-                <a href="/branch/civil">Civil</a>
+                
             </nav>
             <div>
                 <h2>Department Overview</h2>
@@ -77,7 +81,7 @@ app.get('/branch/mechanical', (req, res) => {
                 <a href="/branches">Home</a>
                 <a href="/branch/cse">Computer Science</a>
                 <a href="/branch/ece">Electronics</a>
-                <a href="/branch/civil">Civil</a>
+                
             </nav>
             <div>
                 <h2>Department Overview</h2>
@@ -97,3 +101,15 @@ app.get('/branch/mechanical', (req, res) => {
         </div>
     `);
 });
+
+app.get('/', (req, res) => {
+    res.redirect('/branches');
+});
+
+// Start server
+app.listen(3000, () => {
+    
+    console.log('Visit: http://localhost:3000/branches');
+});
+
+module.exports = app;
