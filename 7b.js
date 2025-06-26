@@ -9,7 +9,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
     .then(client => {
         const db = client.db('college');
         
-        app.get('/', (req, res) => {
+app.get('/', (req, res) => {
             res.send(`
                 <h2>Course Enrollment</h2>
                 <form action="/add-enrollment" method="POST">
@@ -28,7 +28,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             `);
         });
 
-        app.post('/add-enrollment', async (req, res) => {
+app.post('/add-enrollment', async (req, res) => {
             await db.collection('enrollments').insertOne({
                 student_id: req.body.student_id,
                 name: req.body.name,
@@ -40,7 +40,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             res.send('<h2>✅ Added!</h2><a href="/">Back</a>');
         });
 
-        app.get('/update-form', (req, res) => {
+app.get('/update-form', (req, res) => {
             res.send(`
                 <h2>Update Status</h2>
                 <form action="/update-status" method="POST">
@@ -55,7 +55,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             `);
         });
 
-        app.post('/update-status', async (req, res) => {
+app.post('/update-status', async (req, res) => {
             const result = await db.collection('enrollments').updateOne(
                 { student_id: req.body.student_id },
                 { $set: { status: req.body.status } }
@@ -63,7 +63,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             res.send(`<h2>${result.modifiedCount ? '✅ Updated!' : '❌ Not Found'}</h2><a href="/">Back</a>`);
         });
 
-        app.get('/active-enrollments', async (req, res) => {
+app.get('/active-enrollments', async (req, res) => {
             const enrollments = await db.collection('enrollments').find({ status: 'active' }).toArray();
             let html = '<h2>Active Enrollments</h2>';
             enrollments.forEach(e => {
@@ -72,7 +72,7 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             res.send(html + '<a href="/">Back</a>');
         });
 
-        app.put('/update-enrollment-status/:id', async (req, res) => {
+app.put('/update-enrollment-status/:id', async (req, res) => {
             const result = await db.collection('enrollments').updateOne(
                 { student_id: req.params.id },
                 { $set: { status: req.body.status } }
@@ -80,5 +80,5 @@ MongoClient.connect('mongodb://127.0.0.1:27017')
             res.json({ modified: result.modifiedCount });
         });
 
-        app.listen(3001, () => console.log('Server on 3001'));
+app.listen(3001, () => console.log('Server on 3001'));
     });

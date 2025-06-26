@@ -75,27 +75,25 @@ app.get('/available-beds', async (req, res) => {
         
         let html = '<h2>Hospitals with Available Beds < 10</h2>';
         
-        if (filteredHospitals.length === 0) {
-            html += '<p>No hospitals found with available beds less than 10</p>';
-        } else {
-            html += '<table border="1"><tr><th>Hospital</th><th>Location</th><th>Total Beds</th><th>Occupied</th><th>Available</th></tr>';
-            filteredHospitals.forEach(hospital => {
-                const available = hospital.total_beds - hospital.occupied_beds;
-                html += `<tr>
-                    <td>${hospital.name}</td>
-                    <td>${hospital.location}</td>
-                    <td>${hospital.total_beds}</td>
-                    <td>${hospital.occupied_beds}</td>
-                    <td style="color: red; font-weight: bold;">${available}</td>
-                </tr>`;
-            });
-            html += '</table>';
-        }
         
-        html += '<br><a href="/hospital">Back to Home</a>';
-        res.send(html);
+            filteredHospitals.forEach(hospital => {
+            const available = hospital.total_beds - hospital.occupied_beds;
+            html += `
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                    <p><strong>Hospital:</strong> ${hospital.name}</p>
+                    <p><strong>Location:</strong> ${hospital.location}</p>
+                    <p><strong>Total Beds:</strong> ${hospital.total_beds}</p>
+                    <p><strong>Occupied:</strong> ${hospital.occupied_beds}</p>
+                    <p><strong>Available:</strong> <span style="color: red; font-weight: bold;">${available}</span></p>
+                </div>
+            `;
+        });
     
+    
+    html += '<a href="/">Back to Home</a>';
+    res.send(html);
 });
+
 
 app.post('/admit-patient/:hospitalId', async (req, res) => {
     

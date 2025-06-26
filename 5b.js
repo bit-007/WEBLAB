@@ -107,19 +107,17 @@ app.get('/all-student-grades', async (req, res) => {
         let html = '<h2>All Student Records</h2>';
         
         
-            html += '<table border="1"><tr><th>Name</th><th>USN</th><th>Department</th><th>Grade</th></tr>';
-            students.forEach(student => {
-                html += `<tr>
-                    <td>${student.name}</td>
-                    <td>${student.usn}</td>
-                    <td>${student.department}</td>
-                    <td>${student.grade}</td>
-                </tr>`;
+             students.forEach(student => {
+                html += `
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                        <p><strong>Name:</strong> ${student.name}</p>
+                        <p><strong>USN:</strong> ${student.usn}</p>
+                        <p><strong>Department:</strong> ${student.department}</p>
+                        <p><strong>Grade:</strong> ${student.grade}</p>
+                    </div>
+                `;
             });
-            html += '</table>';
-        
-        
-        html += '<br><a href="/">Back to Home</a>';
-        res.send(html);
-    
+            
+            html += '<a href="/">Back to Home</a>';
+            res.send(html);
 });

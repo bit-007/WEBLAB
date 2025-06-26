@@ -71,32 +71,26 @@ app.post('/add-exam-result', async (req, res) => {
 });
 
 app.get('/not-eligible', async (req, res) => {
-    try {
+    
         const students = await db.collection('exam_results').find({ 
             marks: { $lt: 20 } 
         }).toArray();
         
         let html = '<h2>Not Eligible Students (Marks < 20)</h2>';
         
-        if (students.length === 0) {
-            html += '<p>No students found with marks below 20</p>';
-        } else {
-            html += '<table border="1"><tr><th>Student ID</th><th>Name</th><th>Subject</th><th>Marks</th><th>Status</th></tr>';
             students.forEach(student => {
-                html += `<tr>
-                    <td>${student.student_id}</td>
-                    <td>${student.name}</td>
-                    <td>${student.subject}</td>
-                    <td style="color: red;">${student.marks}</td>
-                    <td style="color: red;">${student.eligibility_status}</td>
-                </tr>`;
-            });
-            html += '</table>';
-        }
-        
-        html += '<br><a href="/exam-management">Back to Home</a>';
-        res.send(html);
-    } catch (error) {
-        res.status(500).send('Error retrieving exam results');
-    }
+            html += `
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                    <p><strong>Student ID:</strong> ${student.student_id}</p>
+                    <p><strong>Name:</strong> ${student.name}</p>
+                    <p><strong>Subject:</strong> ${student.subject}</p>
+                    <p><strong>Marks:</strong> <span style="color: red;">${student.marks}</span></p>
+                    <p><strong>Status:</strong> <span style="color: red;">${student.eligibility_status}</span></p>
+                </div>
+            `;
+        });
+    
+    
+    html += '<a href="/exam-management">Back to Home</a>';
+    res.send(html);
 });

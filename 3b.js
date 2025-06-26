@@ -20,7 +20,7 @@ MongoClient.connect(url)
         console.error('❌ MongoDB connection failed:', err.message);
     });
 
-app.get('/hr-employees', (req, res) => {
+app.get('/', (req, res) => {
     res.send(`
         <h2>HR Employee Management</h2>
         <form action="/add-employee" method="POST">
@@ -65,7 +65,7 @@ app.post('/add-employee', async (req, res) => {
             <h2>✅ Employee Added Successfully!</h2>
             <p>Name: ${employee.emp_name}</p>
             <p>Salary: ₹${employee.salary}</p>
-            <a href="/hr-employees">Add Another Employee</a>
+            <a href="/">Add Another Employee</a>
         `);
     
 });
@@ -75,22 +75,19 @@ app.get('/high-salary-employees', async (req, res) => {
         const employees = await db.collection('employees').find({ salary: { $gt: 50000 } }).toArray();
         let html = '<h2>Employees with Salary > ₹50,000</h2>';
         
-        if (employees.length === 0) {
-            html += '<p>No employees found with salary greater than ₹50,000</p>';
-        } else {
-            html += '<table border="1"><tr><th>Name</th><th>Email</th><th>Job Title</th><th>Salary</th></tr>';
-            employees.forEach(emp => {
-                html += `<tr>
-                    <td>${emp.emp_name}</td>
-                    <td>${emp.email}</td>
-                    <td>${emp.job_title}</td>
-                    <td>₹${emp.salary}</td>
-                </tr>`;
-            });
-            html += '</table>';
-        }
         
-        html += '<br><a href="/hr-employees">Back to Home</a>';
-        res.send(html);
-    
+            employees.forEach(emp => {
+                html += `
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                        <p><strong>Name:</strong> ${emp.emp_name}</p>
+                        <p><strong>Email:</strong> ${emp.email}</p>
+                        <p><strong>Phone:</strong> ${emp.phone}</p>
+                        <p><strong>Job Title:</strong> ${emp.job_title}</p>
+                        <p><strong>Salary:</strong> ₹${emp.salary}</p>
+                    </div>
+                `;
+            });
+            
+            html += '<a href="/hr-employees">Back to Home</a>';
+            res.send(html);
 });

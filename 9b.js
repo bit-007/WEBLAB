@@ -75,20 +75,19 @@ app.get('/cse-6th-semester', async (req, res) => {
         if (students.length === 0) {
             html += '<p>No 6th semester CSE students found</p>';
         } else {
-            html += '<table border="1"><tr><th>Name</th><th>Branch</th><th>Semester</th><th>Added Date</th></tr>';
             students.forEach(student => {
-                html += `<tr>
-                    <td>${student.user_name}</td>
-                    <td style="color: blue; font-weight: bold;">${student.branch}</td>
-                    <td style="color: green; font-weight: bold;">${student.sem}</td>
-                    <td>${student.created_date.toDateString()}</td>
-                </tr>`;
-            });
-            html += '</table>';
-            html += `<br><p><strong>Total 6th Semester CSE Students: ${students.length}</strong></p>`;
-        }
-        
-        html += '<br><a href="/">Back to Home</a>';
-        res.send(html);
+            html += `
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                    <p><strong>Name:</strong> ${student.user_name}</p>
+                    <p><strong>Branch:</strong> <span style="color: blue; font-weight: bold;">${student.branch}</span></p>
+                    <p><strong>Semester:</strong> <span style="color: green; font-weight: bold;">${student.sem}</span></p>
+                    <p><strong>Added Date:</strong> ${student.created_date.toDateString()}</p>
+                </div>
+            `;
+        });
+        html += `<p><strong>Total 6th Semester CSE Students: ${students.length}</strong></p>`;
+    }
     
+    html += '<a href="/">Back to Home</a>';
+    res.send(html);
 });

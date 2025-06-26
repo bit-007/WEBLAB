@@ -73,33 +73,27 @@ app.post('/add-attendance', async (req, res) => {
 });
 
 app.get('/low-attendance', async (req, res) => {
-    try {
+    
         const students = await db.collection('attendance').find({ 
             attendance_percentage: { $lt: 75 } 
         }).toArray();
         
         let html = '<h2>Students with Attendance Below 75%</h2>';
         
-        if (students.length === 0) {
-            html += '<p>No students found with attendance below 75%</p>';
-        } else {
-            html += '<table border="1"><tr><th>Student ID</th><th>Name</th><th>Course</th><th>Attended</th><th>Total</th><th>Percentage</th></tr>';
             students.forEach(student => {
-                html += `<tr>
-                    <td>${student.student_id}</td>
-                    <td>${student.name}</td>
-                    <td>${student.course}</td>
-                    <td>${student.classes_attended}</td>
-                    <td>${student.total_classes}</td>
-                    <td style="color: red;">${student.attendance_percentage.toFixed(2)}%</td>
-                </tr>`;
+                html += `
+                    <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                        <p><strong>Student ID:</strong> ${student.student_id}</p>
+                        <p><strong>Name:</strong> ${student.name}</p>
+                        <p><strong>Course:</strong> ${student.course}</p>
+                        <p><strong>Classes Attended:</strong> ${student.classes_attended}</p>
+                        <p><strong>Total Classes:</strong> ${student.total_classes}</p>
+                        <p><strong>Percentage:</strong> <span style="color: red;">${student.attendance_percentage.toFixed(2)}%</span></p>
+                    </div>
+                `;
             });
-            html += '</table>';
-        }
+            
         
-        html += '<br><a href="/attendance">Back to Home</a>';
+        html += '<a href="/attendance">Back to Home</a>';
         res.send(html);
-    } catch (error) {
-        res.status(500).send('Error retrieving attendance data');
-    }
 });

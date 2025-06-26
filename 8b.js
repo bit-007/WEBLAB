@@ -83,21 +83,20 @@ app.get('/affordable-products', async (req, res) => {
         if (products.length === 0) {
             html += '<p>No products found with final price less than ₹1000</p>';
         } else {
-            html += '<table border="1"><tr><th>Product ID</th><th>Name</th><th>Original Price</th><th>Discount</th><th>Final Price</th><th>Stock</th></tr>';
             products.forEach(product => {
-                html += `<tr>
-                    <td>${product.product_id}</td>
-                    <td>${product.name}</td>
-                    <td>₹${product.price}</td>
-                    <td>${product.discount}%</td>
-                    <td style="color: green; font-weight: bold;">₹${product.final_price.toFixed(2)}</td>
-                    <td>${product.stock}</td>
-                </tr>`;
-            });
-            html += '</table>';
-        }
-        
-        html += '<br><a href="/products">Back to Home</a>';
-        res.send(html);
+            html += `
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                    <p><strong>Product ID:</strong> ${product.product_id}</p>
+                    <p><strong>Name:</strong> ${product.name}</p>
+                    <p><strong>Original Price:</strong> ₹${product.price}</p>
+                    <p><strong>Discount:</strong> ${product.discount}%</p>
+                    <p><strong>Final Price:</strong> <span style="color: green; font-weight: bold;">₹${product.final_price.toFixed(2)}</span></p>
+                    <p><strong>Stock:</strong> ${product.stock}</p>
+                </div>
+            `;
+        });
+    }
     
+    html += '<a href="/">Back to Home</a>';
+    res.send(html);
 });

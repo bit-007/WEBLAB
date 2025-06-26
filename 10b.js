@@ -91,20 +91,19 @@ app.get('/edtech-high-funding', async (req, res) => {
         if (ideas.length === 0) {
             html += '<p>No EdTech ideas found requiring funding more than ₹5 lakhs</p>';
         } else {
-            html += '<table border="1"><tr><th>ID</th><th>Team</th><th>Title</th><th>Domain</th><th>Funding Required</th></tr>';
             ideas.forEach(idea => {
-                html += `<tr>
-                    <td>${idea.id}</td>
-                    <td>${idea.team_name}</td>
-                    <td>${idea.title}</td>
-                    <td style="color: blue; font-weight: bold;">${idea.domain}</td>
-                    <td style="color: red; font-weight: bold;">₹${idea.funding_required} Lakhs</td>
-                </tr>`;
-            });
-            html += '</table>';
-        }
-        
-        html += '<br><a href="/">Back to Home</a>';
-        res.send(html);
+            html += `
+                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                    <p><strong>ID:</strong> ${idea.id}</p>
+                    <p><strong>Team:</strong> ${idea.team_name}</p>
+                    <p><strong>Title:</strong> ${idea.title}</p>
+                    <p><strong>Domain:</strong> <span style="color: blue; font-weight: bold;">${idea.domain}</span></p>
+                    <p><strong>Funding Required:</strong> <span style="color: red; font-weight: bold;">₹${idea.funding_required} Lakhs</span></p>
+                </div>
+            `;
+        });
+    }
     
+    html += '<a href="/">Back to Home</a>';
+    res.send(html);
 });
