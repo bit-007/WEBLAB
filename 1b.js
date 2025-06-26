@@ -113,9 +113,7 @@ app.get('/pending-complaints', async (req, res) => {
         const complaints = await db.collection('complaints').find({ status: 'Pending' }).toArray();
         let html = '<h2>Pending Complaints</h2>';
         
-        if (complaints.length == 0) {
-            html += '<p>No pending complaints</p>';
-        } else {
+        
             complaints.forEach(complaint => {
                 html += `
                     <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
@@ -126,7 +124,7 @@ app.get('/pending-complaints', async (req, res) => {
                     </div>
                 `;
             });
-        }
+        
         
         html += '<a href="/">Back to Home</a>';
         res.send(html);

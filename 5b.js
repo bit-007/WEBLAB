@@ -106,9 +106,7 @@ app.get('/all-student-grades', async (req, res) => {
         const students = await db.collection('student_grades').find({}).toArray();
         let html = '<h2>All Student Records</h2>';
         
-        if (students.length === 0) {
-            html += '<p>No student records found</p>';
-        } else {
+        
             html += '<table border="1"><tr><th>Name</th><th>USN</th><th>Department</th><th>Grade</th></tr>';
             students.forEach(student => {
                 html += `<tr>
@@ -119,7 +117,7 @@ app.get('/all-student-grades', async (req, res) => {
                 </tr>`;
             });
             html += '</table>';
-        }
+        
         
         html += '<br><a href="/">Back to Home</a>';
         res.send(html);

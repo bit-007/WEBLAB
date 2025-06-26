@@ -48,7 +48,7 @@ app.get('/attendance', (req, res) => {
 });
 
 app.post('/add-attendance', async (req, res) => {
-    try {
+    
         const totalClasses = parseInt(req.body.total_classes);
         const classesAttended = parseInt(req.body.classes_attended);
         const attendancePercentage = (classesAttended / totalClasses) * 100;
@@ -69,9 +69,7 @@ app.post('/add-attendance', async (req, res) => {
             <p>Attendance: ${student.attendance_percentage.toFixed(2)}%</p>
             <a href="/attendance">Add Another Student</a>
         `);
-    } catch (error) {
-        res.status(500).send('Error adding student');
-    }
+    
 });
 
 app.get('/low-attendance', async (req, res) => {
