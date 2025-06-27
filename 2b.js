@@ -53,7 +53,7 @@ app.post('/add-student-fee', async (req, res) => {
             student_name: req.body.student_name,
             usn: req.body.usn,
             semester: parseInt(req.body.semester),
-            exam_fee_paid: req.body.exam_fee === 'true'
+            exam_fee_paid: req.body.exam_fee===true
         };
         
         await db.collection('fee_students').insertOne(student);
@@ -61,18 +61,40 @@ app.post('/add-student-fee', async (req, res) => {
             <h2>✅ Student Added Successfully!</h2>
             <p>Name: ${student.student_name}</p>
             <p>Fee Status: ${student.exam_fee_paid ? 'Paid' : 'Not Paid'}</p>
-            <a href="/exam-fee">Add Another Student</a>
+            <a href="/">Add Another Student</a>
         `);
     
 });
 
 app.get('/delete-unpaid', async (req, res) => {
     
-        const result = await db.collection('fee_students').deleteMany({ exam_fee_paid: false });
+        const result = await db.collection('fee_students').deleteMany({ exam_fee_paid: 'false' });
         res.send(`
             <h2>🗑️ Deletion Complete</h2>
             <p>Deleted ${result.deletedCount} students who haven't paid exam fees</p>
-            <a href="/exam-fee">Back to Home</a>
+            <a href="/">Back to Home</a>
         `);
     
 });
+
+app.get("/all-fee-students",async(req,res)=>{
+
+    const students=await db.collection('fee_students').find().toArray();
+    let html=`<h2> All Students</h2>`;
+
+    students.forEach(s=>{
+        html+=
+            `
+            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+                <p><strong>NAME:</strong> ${s.student_name}</p>
+                <p><strong>USN:</strong> ${s.usn}</p>
+                <p><strong>SEM:</strong> ${s.semester}</p>
+                <p><strong>paid fees:</strong> ${s.exam_fee_paid}</p>
+            </div>
+            `;
+    });
+
+    html+=`<a href="/">BACK HOME </a>`;
+    res.send(html);
+
+})

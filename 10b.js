@@ -39,10 +39,7 @@ app.get('/', (req, res) => {
                 <option value="EdTech">EdTech</option>
                 <option value="FinTech">FinTech</option>
                 <option value="HealthTech">HealthTech</option>
-                <option value="E-commerce">E-commerce</option>
-                <option value="AI/ML">AI/ML</option>
-                <option value="IoT">IoT</option>
-                <option value="Other">Other</option>
+                
             </select><br><br>
             
             <label>Funding Required (₹ in lakhs):</label>
@@ -52,7 +49,7 @@ app.get('/', (req, res) => {
         </form>
         <br>
         <a href="/edtech-high-funding">View EdTech Ideas with Funding > ₹5 Lakhs</a><br>
-        <a href="/all-startup-ideas">View All Startup Ideas</a>
+        
     `);
 });
 
@@ -88,9 +85,6 @@ app.get('/edtech-high-funding', async (req, res) => {
         
         let html = '<h2>EdTech Startup Ideas with Funding > ₹5 Lakhs</h2>';
         
-        if (ideas.length === 0) {
-            html += '<p>No EdTech ideas found requiring funding more than ₹5 lakhs</p>';
-        } else {
             ideas.forEach(idea => {
             html += `
                 <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
@@ -102,7 +96,7 @@ app.get('/edtech-high-funding', async (req, res) => {
                 </div>
             `;
         });
-    }
+    
     
     html += '<a href="/">Back to Home</a>';
     res.send(html);

@@ -5,9 +5,20 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-MongoClient.connect('mongodb://127.0.0.1:27017')
+const url = 'mongodb://127.0.0.1:27017';
+let db;
+
+MongoClient.connect(url)
     .then(client => {
-        const db = client.db('college');
+        console.log('✅ Connected to MongoDB');
+        db = client.db('college');
+        app.listen(3001, () => {
+            console.log('🚀 Server running on http://localhost:3001');
+        });
+    })
+    .catch(err => {
+        console.error('❌ MongoDB connection failed:', err.message);
+    });
         
 app.get('/', (req, res) => {
             res.send(`
@@ -56,11 +67,13 @@ app.get('/update-form', (req, res) => {
         });
 
 app.post('/update-status', async (req, res) => {
+     
+            const{student_id,status}=req.body;
             const result = await db.collection('enrollments').updateOne(
-                { student_id: req.body.student_id },
-                { $set: { status: req.body.status } }
+                { student_id: student_id },
+                { $set: { status:status,updated_date:new Date() } }
             );
-            res.send(`<h2>${result.modifiedCount ? '✅ Updated!' : '❌ Not Found'}</h2><a href="/">Back</a>`);
+            res.send(`<h2> '✅ Updated!' <a href="/">Back</a>`);
         });
 
 app.get('/active-enrollments', async (req, res) => {
@@ -72,13 +85,3 @@ app.get('/active-enrollments', async (req, res) => {
             res.send(html + '<a href="/">Back</a>');
         });
 
-app.put('/update-enrollment-status/:id', async (req, res) => {
-            const result = await db.collection('enrollments').updateOne(
-                { student_id: req.params.id },
-                { $set: { status: req.body.status } }
-            );
-            res.json({ modified: result.modifiedCount });
-        });
-
-app.listen(3001, () => console.log('Server on 3001'));
-    });

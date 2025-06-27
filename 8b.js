@@ -43,7 +43,7 @@ app.get('/', (req, res) => {
         </form>
         <br>
         <a href="/affordable-products">View Products with Final Price < ₹1000</a><br>
-        <a href="/all-products">View All Products</a>
+        
     `);
 });
 
@@ -69,7 +69,7 @@ app.post('/add-product', async (req, res) => {
             <p>Product: ${product.name}</p>
             <p>Original Price: ₹${product.price}</p>
             <p>Discount: ${product.discount}%</p>
-            <p>Final Price: ₹${product.final_price.toFixed(2)}</p>
+            <p>Final Price: ₹${product.final_price}</p>
             <a href="/">Add Another Product</a>
         `);
     
@@ -80,9 +80,7 @@ app.get('/affordable-products', async (req, res) => {
         const products = await db.collection('products').find({ final_price: { $lt: 1000 } }).toArray();
         let html = '<h2>Products with Final Price < ₹1000</h2>';
         
-        if (products.length === 0) {
-            html += '<p>No products found with final price less than ₹1000</p>';
-        } else {
+        
             products.forEach(product => {
             html += `
                 <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
@@ -95,7 +93,7 @@ app.get('/affordable-products', async (req, res) => {
                 </div>
             `;
         });
-    }
+    
     
     html += '<a href="/">Back to Home</a>';
     res.send(html);

@@ -102,9 +102,6 @@ app.get('/branch/mechanical', (req, res) => {
     `);
 });
 
-app.get('/', (req, res) => {
-    res.redirect('/branches');
-});
 
 // Start server
 app.listen(3000, () => {

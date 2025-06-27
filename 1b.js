@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
             <textarea name="issue" required></textarea><br><br>
             
             <label>Status:</label>
-            <select name="status" required>
+            <select name="status">
                 <option value="Pending">Pending</option>
                 <option value="In Progress">In Progress</option>
                 <option value="Resolved">Resolved</option>
@@ -110,7 +110,7 @@ app.post('/update-status', async (req, res) => {
 // GET route to retrieve pending complaints
 app.get('/pending-complaints', async (req, res) => {
     
-        const complaints = await db.collection('complaints').find({ status: 'Pending' }).toArray();
+        const complaints = await db.collection('complaints').find({ status: 'Pending'}).toArray();
         let html = '<h2>Pending Complaints</h2>';
         
         

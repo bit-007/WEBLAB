@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
             
             <label>Status:</label>
             <select name="status" required>
-                <option value="">Select Status</option>
+                
                 <option value="Active">Active</option>
                 <option value="Completed">Completed</option>
                 <option value="Pending">Pending</option>
@@ -80,13 +80,10 @@ app.post('/add-internship', async (req, res) => {
 });
 
 app.get('/infosys-interns', async (req, res) => {
-    try {
+    
         const interns = await db.collection('internships').find({ company: 'Infosys' }).toArray();
         let html = '<h2>Students Interning at Infosys</h2>';
         
-        if (interns.length === 0) {
-            html += '<p>No students found interning at Infosys</p>';
-        } else {
             interns.forEach(intern => {
                 html += `
                     <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
@@ -98,14 +95,11 @@ app.get('/infosys-interns', async (req, res) => {
                     </div>
                 `;
             });
-        }
+        
         
         html += '<br><a href="/">Back to Home</a>';
         res.send(html);
-    } catch (error) {
-        console.error("Error retrieving interns:", error);
-        res.status(500).send('Error retrieving internship data');
-    }
+    
 });
 
 // GET route for update form

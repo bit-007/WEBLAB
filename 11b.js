@@ -66,7 +66,7 @@ app.post('/add-attendance', async (req, res) => {
         res.send(`
             <h2>✅ Student Added Successfully!</h2>
             <p>Name: ${student.name}</p>
-            <p>Attendance: ${student.attendance_percentage.toFixed(2)}%</p>
+            <p>Attendance: ${student.attendance_percentage}%</p>
             <a href="/attendance">Add Another Student</a>
         `);
     

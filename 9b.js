@@ -67,14 +67,11 @@ app.get('/cse-6th-semester', async (req, res) => {
    
         const students = await db.collection('user_students').find({ 
             sem: 6, 
-            branch: 'CSE' 
+           branch: { $in: ['CSE', 'cse'] }
         }).toArray();
         
         let html = '<h2>6th Semester CSE Students</h2>';
         
-        if (students.length === 0) {
-            html += '<p>No 6th semester CSE students found</p>';
-        } else {
             students.forEach(student => {
             html += `
                 <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
@@ -86,7 +83,7 @@ app.get('/cse-6th-semester', async (req, res) => {
             `;
         });
         html += `<p><strong>Total 6th Semester CSE Students: ${students.length}</strong></p>`;
-    }
+    
     
     html += '<a href="/">Back to Home</a>';
     res.send(html);

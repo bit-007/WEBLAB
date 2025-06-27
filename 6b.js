@@ -69,43 +69,51 @@ app.post('/add-hospital', async (req, res) => {
 });
 
 app.get('/available-beds', async (req, res) => {
+    const hospitals = await db.collection('hospitals').aggregate([
+        { $addFields: { available_beds: { $subtract: ["$total_beds", "$occupied_beds"] } } },
+        { $match: { available_beds: { $lt: 10 } } }
+    ]).toArray();
     
-        const hospitals = await db.collection('hospitals').find({}).toArray();
-        const filteredHospitals = hospitals.filter(h => (h.total_beds - h.occupied_beds) < 10);
-        
-        let html = '<h2>Hospitals with Available Beds < 10</h2>';
-        
-        
-            filteredHospitals.forEach(hospital => {
-            const available = hospital.total_beds - hospital.occupied_beds;
-            html += `
-                <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
-                    <p><strong>Hospital:</strong> ${hospital.name}</p>
-                    <p><strong>Location:</strong> ${hospital.location}</p>
-                    <p><strong>Total Beds:</strong> ${hospital.total_beds}</p>
-                    <p><strong>Occupied:</strong> ${hospital.occupied_beds}</p>
-                    <p><strong>Available:</strong> <span style="color: red; font-weight: bold;">${available}</span></p>
-                </div>
-            `;
-        });
-    
-    
+    let html = '<h2>Hospitals with Available Beds < 10</h2>';
+    hospitals.forEach(hospital => {
+        html += `
+            <div style="border: 1px solid #ccc; padding: 10px; margin: 10px;">
+                <p><strong>Hospital:</strong> ${hospital.name}</p>
+                <p><strong>Location:</strong> ${hospital.location}</p>
+                <p><strong>Total Beds:</strong> ${hospital.total_beds}</p>
+                <p><strong>Occupied:</strong> ${hospital.occupied_beds}</p>
+                <p><strong>Available:</strong> <span style="color: red; font-weight: bold;">${hospital.available_beds}</span></p>
+            </div>
+        `;
+    });
     html += '<a href="/">Back to Home</a>';
     res.send(html);
 });
 
 
-app.post('/admit-patient/:hospitalId', async (req, res) => {
-    
-        const result = await db.collection('hospitals').updateOne(
-            { hospital_id: req.params.hospitalId },
-            { $inc: { occupied_beds: 1 } }
-        );
-        
-        if (result.modifiedCount > 0) {
-            res.json({ success: true, message: 'Patient admitted successfully' });
-        } else {
-            res.status(404).json({ error: 'Hospital not found' });
-        }
-    
+app.get('/admit-patient', async (req, res) => {
+    const hospitals = await db.collection('hospitals').find({}).toArray();
+    let html = `
+        <h2>Admit Patient</h2>
+        <form action="/admit-patient" method="POST">
+            <select name="hospital_id" required>
+    `;
+    hospitals.forEach(h => {
+        html += `<option value="${h.hospital_id}">${h.name}</option>`;
+    });
+    html += `
+            </select><br>
+            <input type="submit" value="Admit Patient">
+        </form>
+        <a href="/">Back</a>
+    `;
+    res.send(html);
+});
+
+app.post('/admit-patient', async (req, res) => {
+    await db.collection('hospitals').updateOne(
+        { hospital_id: req.body.hospital_id },
+        { $inc: { occupied_beds: 1 } }
+    );
+    res.send('Patient admitted! <a href="/">Back</a>');
 });

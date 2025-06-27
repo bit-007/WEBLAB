@@ -97,6 +97,12 @@ app.post('/update-grade', async (req, res) => {
             { name: name },
             { $set: { grade: grade, updated_date: new Date() } }
         );
+        res.send(`
+            <h2>✅ Student Added Successfully!</h2>
+            <p>Name: ${name}</p>
+            <p>Grade: ${grade}</p>
+            <a href="/">Back to Home</a>
+        `);
         
         
 });

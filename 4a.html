@@ -8,42 +8,53 @@ open 4a.html
 note: no need on npm init or npm install, use only provided folders 
 -->
 
+
 <html>
   <head>
-    <meta charset="UTF-8" /> <!-- **really important line -->
+    
+    <title>Employee Info</title>
+    <!-- Load React and Babel from local `react/` folder -->
     <script src="react/react.development.js"></script>
     <script src="react/react-dom.development.js"></script>
     <script src="react/prop-types.js"></script>
     <script src="react/babel.min.js"></script>
   </head>
-  <body>
-     <div id="root"></div>
-     <script type="text/babel">
-		   class Qb4a extends React.Component {
-    constructor()
-    {
-        super()
-        this.state=
-        {
-            name:"nitya",
-            address:"msrit",
-            company:"xyz"
-        }
-    }
-    changeMessage(){
-        this.setState({
-            name:"reddy",
-            address:"home"
-        })
-    }
-    render() {
-        return (
-            <div>
-                <p>{this.state.name} {this.state.address} {this.state.company}</p>
-                <button onClick={()=>this.changeMessage()}>Change</button>
-            </div>)}}
 
-		ReactDOM.render(<Qb4a />,document.getElementById('root'));
-        </script>	
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+      class Qb4a extends React.Component {
+        constructor() {
+          super();
+          this.state = {
+            name: "Nitya",
+            address: "MSRIT",
+            company: "XYZ"
+          };
+        }
+
+        changeMessage = () => {
+          this.setState({
+            name: "Reddy",
+            address: "Home"
+          });
+        };
+
+        render() {
+          return (
+            <div>
+              <h2>Employee Details</h2>
+              <p><strong>Name:</strong> {this.state.name}</p>
+              <p><strong>Address:</strong> {this.state.address}</p>
+              <p><strong>Company:</strong> {this.state.company}</p>
+              <button onClick={this.changeMessage}>Change</button>
+            </div>
+          );
+        }
+      }
+
+      ReactDOM.render(<Qb4a />, document.getElementById("root"));
+    </script>
   </body>
 </html>
