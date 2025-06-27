@@ -2,41 +2,73 @@
 <html>
 <head>
   <style>
-    /* i. h1 styles */
     h1 {
       border: 1px solid red;
       background-color: #D18C1D;
       padding: 10px;
     }
 
-    /* ii. list item styles */
     li {
       margin: 15px;
       background-color: #C0A9DB;
     }
 
-    /* iii. paragraph box styles */
+    .container {
+      width: 820px; /* nav (200) + p (600) + some spacing */
+      
+    }
+
+    nav {
+      width: 200px;
+      float: left;
+      background-color: #f0f0f0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+    }
+
     p {
       width: 600px;
       height: 400px;
       border: 2px dotted black;
       background-color: #D1D631;
-      padding: 10px; /* optional: keeps text away from border */
-      box-sizing: border-box; /* ensures width/height includes border & padding */
+      padding: 10px;
+      box-sizing: border-box;
+      margin-left: 210px; /* offset by nav width + padding */
+    }
+
+    footer {
+      clear: both;
+      background-color: #f0f0f0;
+      padding: 10px;
+      
+      border: 1px solid #ccc;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-  <h1>Sample Heading with Box Model</h1>
+  <h1>Courses Offered in CSE</h1>
 
-  <ul>
-    <li>First list item</li>
-    <li>Second list item</li>
-    <li>Third list item</li>
-  </ul>
+  <div class="container">
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>Courses</li>
+        <li>Admissions</li>
+        <li>Contact</li>
+      </ul>
+    </nav>
 
-  <p>This is a paragraph inside a 600x400 box with dotted border and background color.</p>
+    <p>
+      The Computer Science and Engineering department offers a comprehensive set of core and elective courses. Students will learn fundamentals of computation, software engineering, databases, networking, AI, and more — preparing them for careers in technology and research.
+    </p>
+  </div>
+
+  <footer>
+    &copy; 2025 Department of CSE. All rights reserved.
+  </footer>
 
 </body>
 </html>
